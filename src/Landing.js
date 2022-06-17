@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import coe from './coe.json';
 
 function Landing() {
@@ -14,14 +14,11 @@ function Landing() {
     {
         e.preventDefault();
         settotDuties(Math.ceil(studCount/studRoomCount) * 2);
-        console.log(studCount,studRoomCount,totDuties);
-        let tempList = [];
-        coe.map((x) => {
-            tempList.push(x);
-        });   
-        setDayList(tempList);
-        console.log(dayList);
+        setDayList(coe);
     }
+	useEffect(()=>{
+		console.log(dayList);
+	},[dayList]);
 
   return (
     <div>
@@ -29,7 +26,19 @@ function Landing() {
         <input type="text" id="studRoomCount" placeholder="Students/Room count" value={studRoomCount} onChange={e => setstudRoomCount(e.target.value)}/>
         <input type="text" id="sessionCount" placeholder="Session count" value={sessionCount} onChange={e => setsessionCount(e.target.value)}/>
         <button onClick={main}>submit</button>
-        {dayList.map((x) => {<span>{x}l</span>})}
+		{dayList.map((day,index) => (
+			<div key={index}>
+				<br></br>
+				<div>id: {day.id}</div>
+				<div>{day.name}</div>
+				<div>{day.day_session_count}</div>
+				<div>{day.total_count}</div>
+				<div>{day.desig}</div>
+				<div>{day.dept}</div>
+
+				
+			</div>
+		))}
     </div>
   )
 }
