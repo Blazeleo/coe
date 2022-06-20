@@ -2,18 +2,18 @@ import React,{useState,useEffect} from 'react'
 import coe from './coe.json';
 
 function Landing() {
-    const [studCount,setstudCount] = useState(1200);
-	const [studRoomCount,setstudRoomCount] = useState(32);
-	const [sessionCount,setsessionCount] = useState();
-	const [totDuties,settotDuties] = useState(0);
+    let studCount = 1200;
+	let studRoomCount = 32;
+	let sessionCount = 0 ;
+	let totDuties = 0;
 
     
-	const [assistCount,setAssistCount] = useState(0); //6
-	const [assocCount,setAssocCount] = useState(0); //3
-	const [profCount,setProfCount] = useState(0); //1
+	let assistCount = 0; //6
+	let assocCount = 0; //3
+	let profCount = 0; //1
     
-    const [dayList,setDayList] = useState([]);
-    const [doneList,setDoneList] = useState([]);
+    let dayList = [];
+    let doneList = [];
     
     function daySet(e)
     {
@@ -22,9 +22,9 @@ function Landing() {
 
         //Get Limit of assignments to each faculty
 
-        settotDuties(Math.ceil(studCount/studRoomCount) * 12);
+        totDuties = (Math.ceil(studCount/studRoomCount) * 12);
         console.log('Total Duties: ' + totDuties/12); 
-        setDayList(coe);
+        dayList = coe;
         // console.log(dayList);
         for(let x of dayList){            
            
@@ -56,7 +56,7 @@ function Landing() {
         let aftCount = 0;
         let mornLim = totDuties/12;
         let dayLim = totDuties/6 + 1;
-        
+
         for(let x of dayList){
             if(seshCount === dayLim)
                 break;
@@ -82,18 +82,19 @@ function Landing() {
                     x.aft = 0;
                     x.morn = 1;
                     mornCount++;
-                    console.log("Morning: " + x.name);
+                    // console.log("Morning: " + x.name);
                 }
                 else{
                     x.morn = 0;
                     x.aft = 1;
                     aftCount++;
-                    console.log("Afternoon: " + x.name);
-
+                    // console.log("Afternoon: " + x.name);
                 }
                 
                 seshCount++;
                 setDoneList([...doneList,x]);
+                
+
                 let tempArr = dayList;
                 let elem = tempArr.shift();
                 tempArr.push(elem);
@@ -108,7 +109,8 @@ function Landing() {
     }
 	useEffect(()=>{
 		console.log(assistCount,assocCount,profCount);
-	},[assistCount,assocCount,profCount]);
+        console.log(doneList);
+	},[assistCount, assocCount, doneList, profCount]);
 
   return (
     <div>

@@ -21,18 +21,70 @@ export default function TestLanding() {
             //number of professors
             else v1++; // number of assistant professors
         }
-        totDuties = (Math.ceil(studCount / studRoomCount) * 2); //duties per day
+        totDuties = (Math.ceil(studCount / studRoomCount) * 12); //duties for duration of exam
         assistCount = (Math.ceil(0.6 * totDuties) / v1); //number of duties per assistant professor
         assocCount = (Math.ceil(0.3 * totDuties) / v2); //number of duties per Associate Professor
         profCount = (Math.ceil(0.1 * totDuties) / v3); //number of duties per Professor
         console.log(assistCount, assocCount, profCount);
 
-        date.forEach((day) => daySet(day));
+        date.forEach(daySet);
         setStatus(true);
     }
 
-    function daySet(day) {
-        
+    function daySet(value,index,array) {
+        doneList = [[]];
+        let seshCount = 1;
+        let mornCount = 0;
+        let aftCount = 0;
+        let mornLim = totDuties/12;
+        let dayLim = totDuties/6 + 1;
+
+        for(let x of dayList){
+            if(seshCount === dayLim)
+                break;
+            let lim = 0;
+
+            if(x.desig === "Assistant Professor"){
+                lim = assistCount;
+            }
+
+            else if(x.desig === "Associate Professor"){
+                lim = assocCount;
+            }
+
+            else{
+                lim = profCount;
+            }
+
+            if((x.total_count < lim) && (x.day_session_count < 1)){
+                x.day_session_count++;
+                x.total_count++;
+                
+                if((x.morn === 0) && (seshCount <= mornLim)){
+                    x.aft = 0;
+                    x.morn = 1;
+                    mornCount++;
+                    // console.log("Morning: " + x.name);
+                }
+                else{
+                    x.morn = 0;
+                    x.aft = 1;
+                    aftCount++;
+                    // console.log("Afternoon: " + x.name);
+                }
+                
+                seshCount++;
+                doneList[index].push(x);                
+
+                let tempArr = dayList;
+                let elem = tempArr.shift();
+                tempArr.push(elem);
+                dayList = tempArr;             
+            }
+        }
+        for(let x of dayList){
+            x.day_session_count = 0;
+        }
     }
 
     useEffect(() => {
