@@ -1,152 +1,152 @@
-import React,{useState,useEffect} from 'react'
-import coe from './coe.json';
+// import React,{useState,useEffect} from 'react'
+// import coe from './coe.json';
 
-function Landing() {
-    let studCount = 1200;
-	let studRoomCount = 32;
-	let sessionCount = 0 ;
-	let totDuties = 0;
+// function Landing() {
+//     let studCount = 1200;
+// 	let studRoomCount = 32;
+// 	let sessionCount = 0 ;
+// 	let totDuties = 0;
 
     
-	let assistCount = 0; //6
-	let assocCount = 0; //3
-	let profCount = 0; //1
+// 	let assistCount = 0; //6
+// 	let assocCount = 0; //3
+// 	let profCount = 0; //1
     
-    let dayList = [];
-    let doneList = [];
+//     let dayList = [];
+//     let doneList = [];
     
-    function daySet(e)
-    {
-        var v1=0, v2=0, v3=0;
-        e.preventDefault();
+//     function daySet(e)
+//     {
+//         var v1=0, v2=0, v3=0;
+//         e.preventDefault();
 
-        //Get Limit of assignments to each faculty
+//         //Get Limit of assignments to each faculty
 
-        totDuties = (Math.ceil(studCount/studRoomCount) * 12);
-        console.log('Total Duties: ' + totDuties/12); 
-        dayList = coe;
-        // console.log(dayList);
-        for(let x of dayList){            
+//         totDuties = (Math.ceil(studCount/studRoomCount) * 12);
+//         console.log('Total Duties: ' + totDuties/12); 
+//         dayList = coe;
+//         // console.log(dayList);
+//         for(let x of dayList){            
            
-            if(x.desig === "Associate Professor"){
-                v1++;
-                setAssocCount(assocCount+1);
-            }
-            else if(x.desig === "Professor")
-            {
-                v2++;
-                setProfCount(profCount + 1);
-            }
-            else{
-                v3++;
-                setAssistCount(assistCount + 1);
-            }
-        }
+//             if(x.desig === "Associate Professor"){
+//                 v1++;
+//                 setAssocCount(assocCount+1);
+//             }
+//             else if(x.desig === "Professor")
+//             {
+//                 v2++;
+//                 setProfCount(profCount + 1);
+//             }
+//             else{
+//                 v3++;
+//                 setAssistCount(assistCount + 1);
+//             }
+//         }
 
-        // console.log(v1,v2,v3);
-        setAssistCount(Math.ceil(Math.ceil(0.6 * totDuties)/v3));
-        setAssocCount(Math.ceil(Math.ceil(0.3 * totDuties)/v1));
-        setProfCount(Math.ceil(Math.ceil(0.1 * totDuties)/v2));
+//         // console.log(v1,v2,v3);
+//         setAssistCount(Math.ceil(Math.ceil(0.6 * totDuties)/v3));
+//         setAssocCount(Math.ceil(Math.ceil(0.3 * totDuties)/v1));
+//         setProfCount(Math.ceil(Math.ceil(0.1 * totDuties)/v2));
 
-        // console.log(assistCount,assocCount,profCount);
+//         // console.log(assistCount,assocCount,profCount);
 
-        //Assign the duties to the faculty with limit constraint
-        let seshCount = 1;
-        let mornCount = 0;
-        let aftCount = 0;
-        let mornLim = totDuties/12;
-        let dayLim = totDuties/6 + 1;
+//         //Assign the duties to the faculty with limit constraint
+//         let seshCount = 1;
+//         let mornCount = 0;
+//         let aftCount = 0;
+//         let mornLim = totDuties/12;
+//         let dayLim = totDuties/6 + 1;
 
-        for(let x of dayList){
-            if(seshCount === dayLim)
-                break;
-            let lim = 0;
+//         for(let x of dayList){
+//             if(seshCount === dayLim)
+//                 break;
+//             let lim = 0;
 
-            if(x.desig === "Assistant Professor"){
-                lim = assistCount;
-            }
+//             if(x.desig === "Assistant Professor"){
+//                 lim = assistCount;
+//             }
 
-            else if(x.desig === "Associate Professor"){
-                lim = assocCount;
-            }
+//             else if(x.desig === "Associate Professor"){
+//                 lim = assocCount;
+//             }
 
-            else{
-                lim = profCount;
-            }
+//             else{
+//                 lim = profCount;
+//             }
 
-            if(x.total_count < lim){
-                x.day_session_count++;
-                x.total_count++;
+//             if(x.total_count < lim){
+//                 x.day_session_count++;
+//                 x.total_count++;
                 
-                if((x.morn === 0) && (seshCount <= mornLim)){
-                    x.aft = 0;
-                    x.morn = 1;
-                    mornCount++;
-                    // console.log("Morning: " + x.name);
-                }
-                else{
-                    x.morn = 0;
-                    x.aft = 1;
-                    aftCount++;
-                    // console.log("Afternoon: " + x.name);
-                }
+//                 if((x.morn === 0) && (seshCount <= mornLim)){
+//                     x.aft = 0;
+//                     x.morn = 1;
+//                     mornCount++;
+//                     // console.log("Morning: " + x.name);
+//                 }
+//                 else{
+//                     x.morn = 0;
+//                     x.aft = 1;
+//                     aftCount++;
+//                     // console.log("Afternoon: " + x.name);
+//                 }
                 
-                seshCount++;
-                setDoneList([...doneList,x]);
+//                 seshCount++;
+//                 setDoneList([...doneList,x]);
                 
 
-                let tempArr = dayList;
-                let elem = tempArr.shift();
-                tempArr.push(elem);
-                setDayList(tempArr);             
-            }
-        }
+//                 let tempArr = dayList;
+//                 let elem = tempArr.shift();
+//                 tempArr.push(elem);
+//                 setDayList(tempArr);             
+//             }
+//         }
            
-        // console.log(doneList);
-        console.log(mornCount,aftCount);
-        console.log(seshCount);
-        // console.log(dayList);
-    }
-	useEffect(()=>{
-		console.log(assistCount,assocCount,profCount);
-        console.log(doneList);
-	},[assistCount, assocCount, doneList, profCount]);
+//         // console.log(doneList);
+//         console.log(mornCount,aftCount);
+//         console.log(seshCount);
+//         // console.log(dayList);
+//     }
+// 	useEffect(()=>{
+// 		console.log(assistCount,assocCount,profCount);
+//         console.log(doneList);
+// 	},[assistCount, assocCount, doneList, profCount]);
 
-  return (
-    <div>
-        <input type="text" id="studCount" placeholder="Student count" value={studCount} onChange={e => setstudCount(e.target.value)} />
-        <input type="text" id="studRoomCount" placeholder="Students/Room count" value={studRoomCount} onChange={e => setstudRoomCount(e.target.value)}/>
-        <input type="text" id="sessionCount" placeholder="Session count" value={sessionCount} onChange={e => setsessionCount(e.target.value)}/>
-        <button onClick={daySet}>submit</button>
-        <div>Daylist
-		{dayList.map((day,index) => (
-			<div key={index}>
-				<br/>
-				<span>Name: {day.name} |  </span>
-				<span>Day_sesh_count: {day.day_session_count} |  </span>
-				<span>total_count: {day.total_count} | </span>
-				<span>desig: {day.desig} | </span>			
-				<span>morn: {day.morn} | </span>			
-				<span>aft: {day.aft} | </span>			
-			</div>
-		))}
-        </div>
-<br/><br></br>
-        <div>Donelist
-		{doneList.map((day,index) => (
-			<div key={index}>
-				<br/>
-				<span>Name: {day.name} | </span>
-				<span>Day_sesh_count: {day.day_session_count} | </span>
-				<span>total_count: {day.total_count} | </span>
-				<span>desig: {day.desig} | </span>	                			
-				<span>morn: {day.morn} | </span>			
-				<span>aft: {day.aft} | </span>		
-			</div>
-		))}
-        </div>
-    </div>
-  )
-}
+//   return (
+//     <div>
+//         <input type="text" id="studCount" placeholder="Student count" value={studCount} onChange={e => setstudCount(e.target.value)} />
+//         <input type="text" id="studRoomCount" placeholder="Students/Room count" value={studRoomCount} onChange={e => setstudRoomCount(e.target.value)}/>
+//         <input type="text" id="sessionCount" placeholder="Session count" value={sessionCount} onChange={e => setsessionCount(e.target.value)}/>
+//         <button onClick={daySet}>submit</button>
+//         <div>Daylist
+// 		{dayList.map((day,index) => (
+// 			<div key={index}>
+// 				<br/>
+// 				<span>Name: {day.name} |  </span>
+// 				<span>Day_sesh_count: {day.day_session_count} |  </span>
+// 				<span>total_count: {day.total_count} | </span>
+// 				<span>desig: {day.desig} | </span>			
+// 				<span>morn: {day.morn} | </span>			
+// 				<span>aft: {day.aft} | </span>			
+// 			</div>
+// 		))}
+//         </div>
+// <br/><br></br>
+//         <div>Donelist
+// 		{doneList.map((day,index) => (
+// 			<div key={index}>
+// 				<br/>
+// 				<span>Name: {day.name} | </span>
+// 				<span>Day_sesh_count: {day.day_session_count} | </span>
+// 				<span>total_count: {day.total_count} | </span>
+// 				<span>desig: {day.desig} | </span>	                			
+// 				<span>morn: {day.morn} | </span>			
+// 				<span>aft: {day.aft} | </span>		
+// 			</div>
+// 		))}
+//         </div>
+//     </div>
+//   )
+// }
 
-export default Landing;
+// export default Landing;

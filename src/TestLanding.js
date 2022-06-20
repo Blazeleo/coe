@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import coe from './coe.json';
-import RenderTable from './components/RenderTable';
+
 export default function TestLanding() {
     const date = [21,22,23,24,25,26,27,28,29,20,31,32];
     var studCount = 1200,studRoomCount=32,sessionCount,totDuties,assistCount=0,assocCount=0,profCount=0;
@@ -27,7 +27,8 @@ export default function TestLanding() {
         profCount = (Math.ceil(0.1 * totDuties) / v3); //number of duties per Professor
         console.log(assistCount, assocCount, profCount);
 
-        date.forEach(daySet);
+        date.forEach(daySet);       
+        
         setStatus(true);
     }
 
@@ -129,11 +130,10 @@ export default function TestLanding() {
 		))} */}
             <table>
                 <tbody>
-                    {date.map((day) => (
+                    {date.map((day,index) => (
                         <tr>
                             <td>{day}</td>
-                            <td>place holder morn</td>
-                            <td>place holder afternoon</td>
+                            <td>{dayList[index]}</td>
                         </tr>
                     ))}
                 </tbody>
