@@ -4,9 +4,9 @@ import coe from './coe.json';
 export default function TestLanding() {
     const date = [21,22,23,24,25,26,27,28,29,20,31,32];
     var studCount = 1200,studRoomCount=32,sessionCount,totDuties,assistCount=0,assocCount=0,profCount=0;
-    var dayList = coe,doneList=[];
+    var dayList = coe,doneList=[[]];
     const [status,setStatus] = useState(false);
-    const [worked,setWorked] = useState([]);
+    const [worked,setWorked] = useState(["worked","2","3"]);
     const [remaining,setRemaining] = useState([]);
 
     function eachDay(e) {
@@ -28,23 +28,25 @@ export default function TestLanding() {
         console.log(assistCount, assocCount, profCount);
 
         date.forEach(daySet);       
-        
         setStatus(true);
+        
     }
-
+    
     function daySet(value,index,array) {
-        doneList = [[]];
+        // console.log('%c%s', 'color: #00e600', index);
         let seshCount = 1;
+        // console.log('%c%s', 'color: #00a3cc', seshCount);
         let mornCount = 0;
         let aftCount = 0;
         let mornLim = totDuties/12;
         let dayLim = totDuties/6 + 1;
-
+        // console.log('%c%s', 'color: #aa00ff', dayLim);
+        
         for(let x of dayList){
+
             if(seshCount === dayLim)
                 break;
             let lim = 0;
-
             if(x.desig === "Assistant Professor"){
                 lim = assistCount;
             }
@@ -58,6 +60,8 @@ export default function TestLanding() {
             }
 
             if((x.total_count < lim) && (x.day_session_count < 1)){
+                
+            // console.log('In: ' + index)
                 x.day_session_count++;
                 x.total_count++;
                 
@@ -75,7 +79,12 @@ export default function TestLanding() {
                 }
                 
                 seshCount++;
-                doneList[index].push(x);                
+                console.log('%c%s', 'color: #e50000', index);
+                console.log(doneList);
+                console.log(x);
+                doneList[index].push(x);  
+
+                console.log(doneList);             
 
                 let tempArr = dayList;
                 let elem = tempArr.shift();
@@ -86,11 +95,14 @@ export default function TestLanding() {
         for(let x of dayList){
             x.day_session_count = 0;
         }
+        
+
     }
 
     useEffect(() => {
+        console.log(doneList);
         setWorked(doneList);
-        setRemaining(dayList);
+        // setRemaining(dayList);
     }, [status]);
 
     return (
@@ -133,7 +145,7 @@ export default function TestLanding() {
                     {date.map((day,index) => (
                         <tr>
                             <td>{day}</td>
-                            <td>{dayList[index]}</td>
+                            <td>{worked[index]}</td>
                         </tr>
                     ))}
                 </tbody>
