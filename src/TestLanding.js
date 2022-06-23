@@ -2,9 +2,12 @@ import React,{useState,useEffect} from 'react'
 import coe from './coe.json';
 
 export default function TestLanding() {
-    const date = [21,22,23,24,25,26,27,28,29,20,31,32];
+    const date = [21,22,23,24,25,26];
     var studCount = 1200,studRoomCount=32,sessionCount,totDuties,assistCount=0,assocCount=0,profCount=0;
-    var dayList = coe,doneList=[[]];
+    var dayList = coe;
+    var doneList=[];
+    for(let i=0; i<date.length;i++)
+        doneList.push([]);
     const [status,setStatus] = useState(false);
     const [worked,setWorked] = useState(["worked","2","3"]);
     const [remaining,setRemaining] = useState([]);
@@ -15,21 +18,21 @@ export default function TestLanding() {
             v2 = 0,
             v3 = 0;
         for (let x of dayList) {
-            if (x.desig === "Associate Professor") {
-                v2++; // number of Associate Professors
-            } else if (x.desig === "Professor") v3++;
-            //number of professors
-            else v1++; // number of assistant professors
+            if (x.desig === "Associate Professor") v2++; // number of Associate Professors
+
+            else if (x.desig === "Professor") v3++; //number of Professors
+
+            else v1++; // number of Assistant professors
         }
-        totDuties = (Math.ceil(studCount / studRoomCount) * 12); //duties for duration of exam
+
+        totDuties = (studCount / studRoomCount * 12); //duties for duration of exam
         assistCount = (Math.ceil(0.6 * totDuties) / v1); //number of duties per assistant professor
         assocCount = (Math.ceil(0.3 * totDuties) / v2); //number of duties per Associate Professor
         profCount = (Math.ceil(0.1 * totDuties) / v3); //number of duties per Professor
         console.log(assistCount, assocCount, profCount);
 
         date.forEach(daySet);       
-        setStatus(true);
-        
+        setStatus(true);        
     }
     
     function daySet(value,index,array) {
@@ -40,18 +43,17 @@ export default function TestLanding() {
         let aftCount = 0;
         let mornLim = totDuties/12;
         let dayLim = totDuties/6 + 1;
-        // console.log('%c%s', 'color: #aa00ff', dayLim);
+        console.log('%c%s', 'color: #aa00ff','daylim:', dayLim);
         
-        for(let x of dayList){
-
+        for(let x in dayList){
             if(seshCount === dayLim)
                 break;
             let lim = 0;
-            if(x.desig === "Assistant Professor"){
+            if(dayList[x].desig === "Assistant Professor"){
                 lim = assistCount;
             }
 
-            else if(x.desig === "Associate Professor"){
+            else if(dayList[x].desig === "Associate Professor"){
                 lim = assocCount;
             }
 
@@ -59,30 +61,28 @@ export default function TestLanding() {
                 lim = profCount;
             }
 
-            if((x.total_count < lim) && (x.day_session_count < 1)){
+            if((dayList[x].total_count < lim) && (dayList[x].day_session_count < 1)){
+                dayList[x].day_session_count++;
+                dayList[x].total_count++;
                 
-            // console.log('In: ' + index)
-                x.day_session_count++;
-                x.total_count++;
-                
-                if((x.morn === 0) && (seshCount <= mornLim)){
-                    x.aft = 0;
-                    x.morn = 1;
+                if((dayList[x].morn === 0) && (seshCount <= mornLim)){
+                    dayList[x].aft = 0;
+                    dayList[x].morn = 1;
                     mornCount++;
-                    // console.log("Morning: " + x.name);
+                    // console.log("Morning: " + dayList[x].name);
                 }
                 else{
-                    x.morn = 0;
-                    x.aft = 1;
+                    dayList[x].morn = 0;
+                    dayList[x].aft = 1;
                     aftCount++;
-                    // console.log("Afternoon: " + x.name);
+                    // console.log("Afternoon: " + dayList[x].name);
                 }
                 
                 seshCount++;
-                console.log('%c%s', 'color: #e50000', index);
-                console.log(doneList);
-                console.log(x);
-                doneList[index].push(x);  
+                // console.log('%c%s', 'color: #e50000', indedayList[x]);
+                // console.log(doneList);
+                // console.log(dayList[x]);
+                doneList[index].push(dayList[x]);  
 
                 console.log(doneList);             
 
@@ -95,8 +95,6 @@ export default function TestLanding() {
         for(let x of dayList){
             x.day_session_count = 0;
         }
-        
-
     }
 
     useEffect(() => {
