@@ -8,9 +8,7 @@ export default function TestLanding() {
     var doneList=[];
     for(let i=0; i<date.length;i++)
         doneList.push([]);
-    const [status,setStatus] = useState(false);
     const [worked,setWorked] = useState(["worked","2","3"]);
-    const [remaining,setRemaining] = useState([]);
 
     function eachDay(e) {
         e.preventDefault();
@@ -29,21 +27,18 @@ export default function TestLanding() {
         assistCount = (Math.ceil(0.6 * totDuties) / v1); //number of duties per assistant professor
         assocCount = (Math.ceil(0.3 * totDuties) / v2); //number of duties per Associate Professor
         profCount = (Math.ceil(0.1 * totDuties) / v3); //number of duties per Professor
-        console.log(assistCount, assocCount, profCount);
 
-        date.forEach(daySet);       
-        setStatus(true);        
+        date.forEach(daySet);  
+        console.log(doneList) 
+        setWorked(doneList);               
     }
     
     function daySet(value,index,array) {
-        // console.log('%c%s', 'color: #00e600', index);
         let seshCount = 1;
-        // console.log('%c%s', 'color: #00a3cc', seshCount);
         let mornCount = 0;
         let aftCount = 0;
         let mornLim = totDuties/12;
         let dayLim = totDuties/6 + 1;
-        console.log('%c%s', 'color: #aa00ff','daylim:', dayLim);
         
         for(let x in dayList){
             if(seshCount === dayLim)
@@ -69,22 +64,15 @@ export default function TestLanding() {
                     dayList[x].aft = 0;
                     dayList[x].morn = 1;
                     mornCount++;
-                    // console.log("Morning: " + dayList[x].name);
                 }
                 else{
                     dayList[x].morn = 0;
                     dayList[x].aft = 1;
                     aftCount++;
-                    // console.log("Afternoon: " + dayList[x].name);
                 }
                 
                 seshCount++;
-                // console.log('%c%s', 'color: #e50000', indedayList[x]);
-                // console.log(doneList);
-                // console.log(dayList[x]);
                 doneList[index].push(dayList[x]);  
-
-                console.log(doneList);             
 
                 let tempArr = dayList;
                 let elem = tempArr.shift();
@@ -98,10 +86,10 @@ export default function TestLanding() {
     }
 
     useEffect(() => {
-        console.log(doneList);
-        setWorked(doneList);
+        // console.log(doneList)
+        console.log(worked)
         // setRemaining(dayList);
-    }, [status]);
+    }, [worked]);
 
     return (
         <div>
@@ -143,7 +131,7 @@ export default function TestLanding() {
                     {date.map((day,index) => (
                         <tr>
                             <td>{day}</td>
-                            <td>{worked[index]}</td>
+                            <td></td>
                         </tr>
                     ))}
                 </tbody>
