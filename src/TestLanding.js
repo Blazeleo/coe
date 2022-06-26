@@ -59,7 +59,7 @@ export default function TestLanding() {
         dayList[x].day_session_count++;
         dayList[x].total_count++;
 
-        if (dayList[x].morn === 0 && seshCount <= mornLim) {
+        if (seshCount <= mornLim) {
           dayList[x].aft = 0;
           dayList[x].morn = 1;
           let mornObj = {
@@ -68,7 +68,7 @@ export default function TestLanding() {
           doneList[index][0].push(mornObj);
           mornCount++;
         } 
-        else if (dayList[x].aft === 0 && seshCount <= dayLim+2){
+        else if (seshCount <= dayLim+1){
           dayList[x].morn = 0;
           dayList[x].aft = 1;
           let aftObj = {
@@ -90,10 +90,10 @@ export default function TestLanding() {
       x.day_session_count = 0;
     }
     
-    // console.log('Daylist');
-    // console.log(doneList);
-    // console.log('DoneList');
+    // console.log('Daylist');    
     // console.log(dayList);
+    console.log('DoneList');
+    console.log(doneList);
   }
 
   useEffect(() => {
