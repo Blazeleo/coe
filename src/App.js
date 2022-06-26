@@ -1,5 +1,4 @@
 import './App.css';
-import Landing from'./Landing';
 import TestLanding from './TestLanding';
 
 function App() {
