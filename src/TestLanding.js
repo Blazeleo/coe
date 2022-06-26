@@ -48,8 +48,9 @@ export default function TestLanding() {
         let seshCount = 1;
         let mornCount = 0;
         let aftCount = 0;
-        let mornLim = totDuties / 12;
-        let dayLim = totDuties / 6 + 1;
+        let mornLim = Math.ceil(totDuties / (date.length * 2));
+        
+        let dayLim = Math.ceil(totDuties / (date.length * 2)) == totDuties / (date.length * 2)? totDuties / date.length  : totDuties / date.length + 2 ;
 
         for (let x in dayList) {
             if (seshCount === dayLim) break;
